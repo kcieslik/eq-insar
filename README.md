@@ -406,10 +406,10 @@ pytest tests/test_generators.py::TestGenerateSyntheticInsar::test_basic_generati
 
 ## Physics References
 
-- **Davis, P.M. (1986)**. Surface deformation due to a dipping hydrofracture. *Journal of Geophysical Research*, 91(B7), 7429-7438.
-- **Aki, K. & Richards, P.G. (2002)**. *Quantitative Seismology*, 2nd ed. University Science Books.
-- **Hanks, T.C. & Kanamori, H. (1979)**. A moment magnitude scale. *Journal of Geophysical Research*, 84(B5), 2348-2350.
-- **Wells, D.L. & Coppersmith, K.J. (1994)**. New empirical relationships among magnitude, rupture length, rupture width, rupture area, and surface displacement. *Bulletin of the Seismological Society of America*, 84(4), 974-1002.
+- **Davis, P.M. (1986)**. Surface deformation due to a dipping hydrofracture. *Journal of Geophysical Research*
+- **Aki, K. & Richards, P.G. (2002)**. *Quantitative Seismology*, 2nd ed. University Science Books
+- **Hanks, T.C. & Kanamori, H. (1979)**. A moment magnitude scale. *Journal of Geophysical Research*
+- **Wells, D.L. & Coppersmith, K.J. (1994)**. New empirical relationships among magnitude, rupture length, rupture width, rupture area, and surface displacement. *Bulletin of the Seismological Society of America*
 
 ## Citation
 
