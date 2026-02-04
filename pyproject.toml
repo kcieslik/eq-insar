@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eq-insar"
+version = "0.1.0"
+description = "Lightweight, physics-based forward model for generating synthetic InSAR deformation data from earthquake sources"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Konrad Cieslik", email = "konrad.cieslik@trainai.io"}
+]
+maintainers = [
+    {name = "Konrad Cieslik", email = "konrad.cieslik@trainai.io"}
+]
+keywords = [
+    "insar",
+    "earthquake",
+    "seismology",
+    "synthetic-data",
+    "deformation",
+    "machine-learning",
+    "remote-sensing",
+    "geodesy",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.20.0",
+]
+
+[project.optional-dependencies]
+viz = [
+    "matplotlib>=3.3.0",
+]
+geotiff = [
+    "rasterio>=1.2.0",
+]
+netcdf = [
+    "netCDF4>=1.5.0",
+]
+io = [
+    "rasterio>=1.2.0",
+    "netCDF4>=1.5.0",
+]
+all = [
+    "matplotlib>=3.3.0",
+    "rasterio>=1.2.0",
+    "netCDF4>=1.5.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/kcieslik/eq-insar"
+Repository = "https://github.com/kcieslik/eq-insar"
+Documentation = "https://github.com/kcieslik/eq-insar#readme"
+Issues = "https://github.com/kcieslik/eq-insar/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["src/eq_insar"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
