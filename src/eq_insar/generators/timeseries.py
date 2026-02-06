@@ -32,8 +32,9 @@ def generate_timeseries(
     ycen_km: float = 0.0,
     depth_km: float = 10.0,
     # Grid parameters
+    grid_size: Optional[int] = None,
     grid_extent_km: float = 50.0,
-    grid_spacing_km: float = 0.5,
+    grid_spacing_km: Optional[float] = None,
     # Elastic parameters
     nu: float = DEFAULT_POISSON_RATIO,
     mu: float = DEFAULT_SHEAR_MODULUS_PA,
@@ -79,10 +80,14 @@ def generate_timeseries(
     depth_km : float
         Source depth in km
 
+    grid_size : int, optional
+        Number of pixels for the grid (e.g., 128 for 128x128).
+        If provided, grid_spacing_km is calculated automatically.
     grid_extent_km : float
-        Half-width of the grid in km
-    grid_spacing_km : float
-        Grid spacing in km
+        Half-width of the grid in km (default: 50 km)
+    grid_spacing_km : float, optional
+        Grid spacing in km. If not provided and grid_size is given,
+        calculated as: 2 * grid_extent_km / (grid_size - 1)
 
     satellite : str, optional
         Satellite configuration ('sentinel1', 'alos2', etc.)
@@ -142,6 +147,7 @@ def generate_timeseries(
         xcen_km=xcen_km,
         ycen_km=ycen_km,
         depth_km=depth_km,
+        grid_size=grid_size,
         grid_extent_km=grid_extent_km,
         grid_spacing_km=grid_spacing_km,
         nu=nu,
