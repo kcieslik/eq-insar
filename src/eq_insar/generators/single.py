@@ -41,8 +41,9 @@ def generate_synthetic_insar(
     ycen_km: float = 0.0,
     depth_km: float = 10.0,
     # Grid parameters
+    grid_size: Optional[int] = None,
     grid_extent_km: float = 50.0,
-    grid_spacing_km: float = 0.5,
+    grid_spacing_km: Optional[float] = None,
     # Elastic parameters
     nu: float = DEFAULT_POISSON_RATIO,
     mu: float = DEFAULT_SHEAR_MODULUS_PA,
@@ -88,10 +89,14 @@ def generate_synthetic_insar(
     depth_km : float
         Source depth in km (positive downward)
 
+    grid_size : int, optional
+        Number of pixels for the grid (e.g., 128 for 128x128).
+        If provided, grid_spacing_km is calculated automatically.
     grid_extent_km : float
-        Half-width of the grid in km
-    grid_spacing_km : float
-        Grid spacing in km
+        Half-width of the grid in km (default: 50 km, so 100 km total)
+    grid_spacing_km : float, optional
+        Grid spacing in km. If not provided and grid_size is given,
+        calculated as: 2 * grid_extent_km / (grid_size - 1)
 
     nu : float
         Poisson's ratio (default: 0.25)
@@ -150,6 +155,14 @@ def generate_synthetic_insar(
     if seed is not None:
         np.random.seed(seed)
 
+    # Handle grid_size parameter
+    if grid_size is not None:
+        # Calculate grid_spacing_km from grid_size and grid_extent_km
+        grid_spacing_km = (2 * grid_extent_km) / (grid_size - 1)
+    elif grid_spacing_km is None:
+        # Default spacing if neither grid_size nor grid_spacing_km provided
+        grid_spacing_km = 0.5
+
     # Get seismic moment
     if M0 is None:
         if Mw is None:
@@ -179,8 +192,14 @@ def generate_synthetic_insar(
         satellite_name = "custom"
 
     # Create coordinate grids
-    xs_km = np.arange(-grid_extent_km, grid_extent_km + grid_spacing_km, grid_spacing_km)
-    ys_km = np.arange(-grid_extent_km, grid_extent_km + grid_spacing_km, grid_spacing_km)
+    if grid_size is not None:
+        # Use linspace for exact grid_size
+        xs_km = np.linspace(-grid_extent_km, grid_extent_km, grid_size)
+        ys_km = np.linspace(-grid_extent_km, grid_extent_km, grid_size)
+    else:
+        # Use arange with spacing
+        xs_km = np.arange(-grid_extent_km, grid_extent_km + grid_spacing_km, grid_spacing_km)
+        ys_km = np.arange(-grid_extent_km, grid_extent_km + grid_spacing_km, grid_spacing_km)
     X_km, Y_km = np.meshgrid(xs_km, ys_km)
 
     # Convert to meters for physics calculations
