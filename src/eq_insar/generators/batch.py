@@ -89,8 +89,9 @@ def sample_earthquake_parameters(
 def generate_training_batch(
     n_samples: int,
     # Grid parameters
+    grid_size: Optional[int] = None,
     grid_extent_km: float = 50.0,
-    grid_spacing_km: float = 0.5,
+    grid_spacing_km: Optional[float] = None,
     # Source parameters
     mw_range: Tuple[float, float] = (4.5, 7.0),
     depth_range_km: Tuple[float, float] = (5.0, 20.0),
@@ -120,10 +121,14 @@ def generate_training_batch(
     ----------
     n_samples : int
         Number of samples to generate
+    grid_size : int, optional
+        Number of pixels for the grid (e.g., 128 for 128x128).
+        If provided, grid_spacing_km is calculated automatically.
     grid_extent_km : float
-        Half-width of the grid in km
-    grid_spacing_km : float
-        Grid spacing in km
+        Half-width of the grid in km (default: 50 km)
+    grid_spacing_km : float, optional
+        Grid spacing in km. If not provided and grid_size is given,
+        calculated as: 2 * grid_extent_km / (grid_size - 1)
     mw_range : tuple (min, max)
         Range of moment magnitudes
     depth_range_km : tuple (min, max)
@@ -184,6 +189,7 @@ def generate_training_batch(
         # Generate time series
         result = generate_timeseries(
             **params,
+            grid_size=grid_size,
             grid_extent_km=grid_extent_km,
             grid_spacing_km=grid_spacing_km,
             satellite=satellite,
