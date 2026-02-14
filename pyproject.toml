@@ -7,7 +7,7 @@ name = "eq-insar"
 version = "0.1.0"
 description = "Lightweight, physics-based forward model for generating synthetic InSAR deformation data from earthquake sources"
 readme = "README.md"
-license = "MIT"
+license = {text = "MIT"}
 authors = [
     {name = "Konrad Cieslik", email = "konrad.cieslik@trainai.io"}
 ]
