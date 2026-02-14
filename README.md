@@ -54,7 +54,7 @@ Optional dependencies:
 ### From PyPI
 
 ```bash
-pip install eq-insar #TODO for now please install from source
+pip install eq-insar
 ```
 
 ### From Source
@@ -430,4 +430,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-This package was developed at the Wroclaw University of Science and Technology.
+This package was developed at the Wroclaw University of Science and Technology & trainai.io
