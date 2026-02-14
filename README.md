@@ -328,6 +328,8 @@ data = load_netcdf('output/interferogram.nc')
 
 See the `examples/` directory for Jupyter notebooks:
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/showcase.ipynb)
+
 - **[showcase.ipynb](examples/showcase.ipynb)**: Comprehensive tutorial covering:
   - Single interferogram generation
   - Fault type comparison (thrust, normal, strike-slip)
