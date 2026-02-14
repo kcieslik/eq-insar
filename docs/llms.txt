@@ -1,0 +1,65 @@
+# EQ-INSAR
+
+> Lightweight, physics-based forward model for generating synthetic InSAR surface deformation data from earthquake sources. Designed for ML training, benchmarking, and sensitivity analysis.
+
+EQ-INSAR is a Python package that generates synthetic Interferometric Synthetic Aperture Radar (InSAR) data for earthquake surface deformation. It uses the Davis (1986) point source model in an elastic half-space to compute 3D surface displacement, then projects it into satellite line-of-sight (LOS) geometry and converts to interferometric phase.
+
+## Core Capabilities
+
+- Generate single synthetic interferograms with configurable earthquake parameters (magnitude, strike, dip, rake, depth)
+- Generate time series with pre-event, co-event, and post-event frames for ML training
+- Batch generation with randomized parameters producing stacked (N, T, H, W) arrays
+- Support for 9 SAR satellites: Sentinel-1, ALOS-2, TerraSAR-X, COSMO-SkyMed, RADARSAT-2, NISAR, SAOCOM, ENVISAT, ICEYE
+- Export to GeoTIFF and NetCDF formats
+- Core computation depends only on NumPy
+
+## Installation
+
+```
+pip install eq-insar
+```
+
+## Key Links
+
+- Documentation: https://kcieslik.github.io/eq-insar/
+- Getting Started: https://kcieslik.github.io/eq-insar/getting-started/
+- API Reference: https://kcieslik.github.io/eq-insar/api/generators/
+- Source Code: https://github.com/kcieslik/eq-insar
+- PyPI: https://pypi.org/project/eq-insar/
+
+## Quick Example
+
+```python
+from eq_insar import generate_synthetic_insar
+
+result = generate_synthetic_insar(
+    Mw=6.0,
+    strike_deg=30, dip_deg=45, rake_deg=90,
+    depth_km=10,
+    satellite='sentinel1',
+    orbit='ascending'
+)
+los_displacement = result['los_displacement']
+wrapped_phase = result['wrapped_phase']
+```
+
+## Main API Functions
+
+- `generate_synthetic_insar()` — Generate a single interferogram
+- `generate_timeseries()` — Generate time series with pre/co/post-event frames
+- `generate_training_batch()` — Batch generation with randomized parameters
+- `batch_to_arrays()` — Convert batch to stacked NumPy arrays
+- `sample_earthquake_parameters()` — Sample random earthquake parameters
+- `get_satellite(name)` — Get satellite configuration
+- `list_satellites()` — List all available satellites
+- `davis_point_source()` — Compute displacement using Davis (1986) model
+- `double_couple_moment_tensor()` — Create moment tensor from strike/dip/rake
+- `compute_los_displacement()` — Project 3D displacement to LOS
+- `save_geotiff()` / `save_netcdf()` — Export data
+
+## Physics References
+
+- Davis, P.M. (1986). Surface deformation due to a dipping hydrofracture. JGR.
+- Aki, K. & Richards, P.G. (2002). Quantitative Seismology.
+- Hanks, T.C. & Kanamori, H. (1979). A moment magnitude scale. JGR.
+- Wells, D.L. & Coppersmith, K.J. (1994). Empirical relationships among magnitude, rupture length, rupture width, rupture area, and surface displacement. BSSA.
