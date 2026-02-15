@@ -26,6 +26,7 @@ pip install eq-insar
 - API Reference: https://kcieslik.github.io/eq-insar/api/generators/
 - Source Code: https://github.com/kcieslik/eq-insar
 - PyPI: https://pypi.org/project/eq-insar/
+- DOI: https://doi.org/10.5281/zenodo.18647189
 
 ## Quick Example
 
