@@ -27,7 +27,6 @@ keywords = [
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -67,11 +66,15 @@ dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
 ]
+docs = [
+    "mkdocs-material",
+    "mkdocstrings[python]",
+]
 
 [project.urls]
 Homepage = "https://github.com/kcieslik/eq-insar"
 Repository = "https://github.com/kcieslik/eq-insar"
-Documentation = "https://github.com/kcieslik/eq-insar#readme"
+Documentation = "https://kcieslik.github.io/eq-insar/"
 Issues = "https://github.com/kcieslik/eq-insar/issues"
 
 [tool.setuptools]

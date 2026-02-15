@@ -6,6 +6,7 @@ A lightweight, physics-based forward model for generating synthetic InSAR surfac
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PyPI](https://img.shields.io/pypi/v/eq-insar.svg)](https://pypi.org/project/eq-insar/)
 
 ## Features
 
@@ -54,7 +55,7 @@ Optional dependencies:
 ### From PyPI
 
 ```bash
-pip install eq-insar #TODO for now please install from source
+pip install eq-insar
 ```
 
 ### From Source
@@ -327,6 +328,8 @@ data = load_netcdf('output/interferogram.nc')
 
 See the `examples/` directory for Jupyter notebooks:
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/showcase.ipynb)
+
 - **[showcase.ipynb](examples/showcase.ipynb)**: Comprehensive tutorial covering:
   - Single interferogram generation
   - Fault type comparison (thrust, normal, strike-slip)
@@ -430,4 +433,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-This package was developed at the Wroclaw University of Science and Technology.
+This package was developed at the Wroclaw University of Science and Technology & trainai.io
