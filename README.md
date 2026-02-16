@@ -408,6 +408,10 @@ pytest tests/test_generators.py::TestGenerateSyntheticInsar::test_basic_generati
 6. Push to the branch (`git push origin feature/new-feature`)
 7. Create a Pull Request
 
+## Roadmap & Voting
+
+See [ROADMAP.md](ROADMAP.md) for planned features and notebooks. Browse [open issues sorted by votes](https://github.com/kcieslik/eq-insar/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc) and upvote the ones you'd like to see prioritized.
+
 ## Physics References
 
 - **Davis, P.M. (1986)**. Surface deformation due to a dipping hydrofracture. *Journal of Geophysical Research*
