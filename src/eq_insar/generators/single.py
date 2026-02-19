@@ -29,6 +29,43 @@ from ..insar import (
 )
 
 
+def _validate_source_parameters(
+    Mw: Optional[float],
+    M0: Optional[float],
+    strike_deg: float,
+    dip_deg: float,
+    rake_deg: float,
+    depth_km: float,
+) -> None:
+    """Validate earthquake source parameters and raise ValueError if invalid."""
+    if Mw is not None:
+        if not (-5.0 <= Mw <= 10.0):
+            raise ValueError(
+                f"Mw={Mw} is outside the valid range [-5, 10]. "
+                f"Negative magnitudes are valid for microearthquakes."
+            )
+    if M0 is not None and M0 <= 0:
+        raise ValueError(f"M0 must be positive, got {M0}")
+    if Mw is None and M0 is None:
+        raise ValueError("Must provide either Mw or M0")
+    if not (0.0 <= dip_deg <= 90.0):
+        raise ValueError(
+            f"dip_deg={dip_deg} is outside the valid range [0, 90]."
+        )
+    if not (0.0 <= strike_deg <= 360.0):
+        raise ValueError(
+            f"strike_deg={strike_deg} is outside the valid range [0, 360]."
+        )
+    if not (-180.0 <= rake_deg <= 180.0):
+        raise ValueError(
+            f"rake_deg={rake_deg} is outside the valid range [-180, 180]."
+        )
+    if depth_km <= 0:
+        raise ValueError(
+            f"depth_km={depth_km} must be positive (depth is measured downward)."
+        )
+
+
 def generate_synthetic_insar(
     # Source parameters
     Mw: Optional[float] = None,
@@ -152,6 +189,9 @@ def generate_synthetic_insar(
     ...     orbit='ascending'
     ... )
     """
+    # Validate source parameters
+    _validate_source_parameters(Mw, M0, strike_deg, dip_deg, rake_deg, depth_km)
+
     if seed is not None:
         np.random.seed(seed)
 
@@ -165,8 +205,6 @@ def generate_synthetic_insar(
 
     # Get seismic moment
     if M0 is None:
-        if Mw is None:
-            raise ValueError("Must provide either Mw or M0")
         M0 = mw_to_m0(Mw)
     else:
         Mw = m0_to_mw(M0)
