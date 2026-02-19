@@ -1,5 +1,5 @@
 """
-DC-INSAR: Physical constants and satellite parameters.
+EQ-INSAR: Physical constants and satellite parameters.
 
 This module contains:
 - Radar wavelengths for various SAR satellites

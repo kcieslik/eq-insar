@@ -43,6 +43,18 @@ def sample_earthquake_parameters(
         Dictionary with keys: Mw, strike_deg, dip_deg, rake_deg,
         xcen_km, ycen_km, depth_km
     """
+    # Validate ranges
+    if mw_range[0] > mw_range[1]:
+        raise ValueError(f"mw_range min ({mw_range[0]}) > max ({mw_range[1]})")
+    if depth_range_km[0] > depth_range_km[1]:
+        raise ValueError(
+            f"depth_range_km min ({depth_range_km[0]}) > max ({depth_range_km[1]})"
+        )
+    if depth_range_km[0] <= 0:
+        raise ValueError(
+            f"depth_range_km min ({depth_range_km[0]}) must be positive"
+        )
+
     if seed is not None:
         np.random.seed(seed)
 
