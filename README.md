@@ -68,6 +68,14 @@ plot_insar_products(result)  # wrapped phase, unwrapped, LOS
 
 ---
 
+## Sample Dataset
+
+A ready-to-use dataset of 1,000 synthetic earthquake interferograms (Sentinel-1, Mw 5–7, random fault geometries) is available on Zenodo:
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18860087.svg)](https://doi.org/10.5281/zenodo.18860087)
+
+---
+
 ## Installation
 
 ```bash
