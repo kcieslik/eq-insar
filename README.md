@@ -65,6 +65,7 @@ plot_insar_products(result)  # wrapped phase, unwrapped, LOS
 |----------|-------------|--------|
 | [showcase.ipynb](examples/showcase.ipynb) | Full tutorial — single interferogram to batch ML pipeline | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/showcase.ipynb) |
 | [satellite_comparison.ipynb](examples/satellite_comparison.ipynb) | C-band vs L-band vs X-band — wavelength effects on fringe density | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/satellite_comparison.ipynb) |
+| [interactive_explorer.ipynb](examples/interactive_explorer.ipynb) | **Interactive ipywidgets explorer** — real-time sliders for strike, dip, rake, depth, and Mw | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/interactive_explorer.ipynb) |
 
 ---
 
