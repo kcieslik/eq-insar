@@ -9,7 +9,7 @@ Physics-based. ML-ready. Reproducible.
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/1147152431.svg)](https://doi.org/10.5281/zenodo.18647189)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18647190.svg)](https://doi.org/10.5281/zenodo.18647190)
 [![PyPI](https://img.shields.io/pypi/v/eq-insar.svg)](https://pypi.org/project/eq-insar/)
 [![EarthArXiv](https://img.shields.io/badge/EarthArXiv-10.31223%2FX5T19M-blue)](https://doi.org/10.31223/X5T19M)
 
@@ -66,6 +66,7 @@ plot_insar_products(result)  # wrapped phase, unwrapped, LOS
 | [showcase.ipynb](examples/showcase.ipynb) | Full tutorial — single interferogram to batch ML pipeline | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/showcase.ipynb) |
 | [satellite_comparison.ipynb](examples/satellite_comparison.ipynb) | C-band vs L-band vs X-band — wavelength effects on fringe density | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/satellite_comparison.ipynb) |
 | [interactive_explorer.ipynb](examples/interactive_explorer.ipynb) | **Interactive ipywidgets explorer** — real-time sliders for strike, dip, rake, depth, and Mw | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/interactive_explorer.ipynb) |
+| [earthquake_deformation_segmentation_unet.ipynb](examples/earthquake_deformation_segmentation_unet.ipynb) | **U-Net segmentation quickstart** — generate synthetic data, train, predict in ~3 min on Colab T4 (test IoU 0.773) | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/earthquake_deformation_segmentation_unet.ipynb) |
 
 ---
 
@@ -291,7 +292,7 @@ If you use EQ-INSAR in your research, please cite:
   title = {EQ-INSAR: A Python Package for Generating Synthetic Earthquake InSAR Deformation Data},
   year = {2026},
   url = {https://github.com/kcieslik/eq-insar},
-  doi = {10.5281/zenodo.18647189}
+  doi = {10.5281/zenodo.18647190}
 }
 ```
 
