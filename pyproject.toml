@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "eq-insar"
-version = "0.1.0"
+version = "0.1.1"
 description = "Lightweight, physics-based forward model for generating synthetic InSAR deformation data from earthquake sources"
 readme = "README.md"
 license = {text = "MIT"}
@@ -44,6 +44,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+inversion = [
+    "scipy>=1.6.0",
+]
 viz = [
     "matplotlib>=3.3.0",
 ]
@@ -58,6 +61,7 @@ io = [
     "netCDF4>=1.5.0",
 ]
 all = [
+    "scipy>=1.6.0",
     "matplotlib>=3.3.0",
     "rasterio>=1.2.0",
     "netCDF4>=1.5.0",

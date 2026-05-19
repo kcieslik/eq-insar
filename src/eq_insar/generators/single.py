@@ -60,9 +60,11 @@ def _validate_source_parameters(
         raise ValueError(
             f"rake_deg={rake_deg} is outside the valid range [-180, 180]."
         )
-    if depth_km <= 0:
+    if not (0.0 < depth_km <= 700.0):
         raise ValueError(
-            f"depth_km={depth_km} must be positive (depth is measured downward)."
+            f"depth_km={depth_km} is outside the valid range (0, 700]. "
+            f"No earthquakes occur below ~700 km (mantle transition zone). "
+            f"For InSAR surface deformation, typical depths are 3–30 km."
         )
 
 

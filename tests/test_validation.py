@@ -39,11 +39,11 @@ class TestSourceParameterValidation:
             generate_synthetic_insar(M0=-1e18, depth_km=10)
 
     def test_negative_depth(self):
-        with pytest.raises(ValueError, match="depth_km.*must be positive"):
+        with pytest.raises(ValueError, match="depth_km.*outside the valid range"):
             generate_synthetic_insar(Mw=6.0, depth_km=-5.0)
 
     def test_zero_depth(self):
-        with pytest.raises(ValueError, match="depth_km.*must be positive"):
+        with pytest.raises(ValueError, match="depth_km.*outside the valid range"):
             generate_synthetic_insar(Mw=6.0, depth_km=0.0)
 
     def test_dip_out_of_range(self):
