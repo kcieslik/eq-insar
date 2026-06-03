@@ -123,9 +123,9 @@ batch = generate_training_batch(
     seed=42
 )
 
-X, y = batch_to_arrays(batch)
-# X: (1000, T, H, W) — input time series
-# y: (1000, T, H, W) — segmentation labels
+result = batch_to_arrays(batch)
+X = result['X']  # (1000, T, H, W) — input time series
+y = result['y']  # (1000, T, H, W) — segmentation labels
 ```
 
 ### Custom Earthquake Parameters
