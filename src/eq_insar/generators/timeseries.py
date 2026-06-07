@@ -17,6 +17,7 @@ from ..insar import (
     displacement_to_phase,
     wrap_phase,
     generate_random_noise,
+    generate_correlated_noise,
 )
 from .single import generate_synthetic_insar
 
@@ -49,11 +50,13 @@ def generate_timeseries(
     n_event: int = 1,
     n_post: int = 5,
     # Noise parameters
-    noise_amplitude_m: float = 0.005,
+    noise_amplitude_m: float = 0.003,
+    noise_model: str = "correlated",
+    noise_beta: float = 5 / 3,
     # Output options
     wrap: bool = True,
     output_type: str = "phase",  # 'phase', 'displacement', 'both'
-    deformation_threshold_m: float = 0.005,  # 5mm for label mask
+    deformation_threshold_m: float = 0.003,  # 3mm for label mask
     seed: Optional[int] = None,
 ) -> Dict:
     """
@@ -103,13 +106,17 @@ def generate_timeseries(
 
     noise_amplitude_m : float
         Noise standard deviation in meters
+    noise_model : str
+        'gaussian' (default) or 'correlated' (power-law atmospheric model)
+    noise_beta : float
+        Spectral index for correlated noise (default: 5/3, Kolmogorov)
 
     wrap : bool
         Wrap phase to [-π, π]
     output_type : str
         'phase' (default), 'displacement', or 'both'
     deformation_threshold_m : float
-        Threshold for creating binary deformation labels
+        LOS displacement threshold for binary deformation labels (default: 3 mm)
     seed : int, optional
         Random seed for reproducibility
 
@@ -177,12 +184,20 @@ def generate_timeseries(
 
     # Generate frames
     for t in range(n_total):
-        # Generate per-frame random noise (different each frame)
-        noise = generate_random_noise(
-            (ny, nx),
-            amplitude_m=noise_amplitude_m,
-            seed=seed + t * 100 if seed else None
-        )
+        frame_seed = seed + t * 100 if seed else None
+        if noise_model == "correlated":
+            noise = generate_correlated_noise(
+                (ny, nx),
+                amplitude_m=noise_amplitude_m,
+                beta=noise_beta,
+                seed=frame_seed,
+            )
+        else:
+            noise = generate_random_noise(
+                (ny, nx),
+                amplitude_m=noise_amplitude_m,
+                seed=frame_seed,
+            )
 
         # Check if this is an event frame
         is_event_frame = n_pre <= t < n_pre + n_event
