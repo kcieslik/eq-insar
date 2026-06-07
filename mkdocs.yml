@@ -43,6 +43,7 @@ nav:
       - InSAR Processing: api/insar.md
       - Satellites: api/satellites.md
       - I/O: api/io.md
+      - Visualization: api/visualization.md
   - Examples: examples.md
 
 plugins:

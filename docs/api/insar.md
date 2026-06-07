@@ -20,4 +20,6 @@ LOS projection, phase conversion, and noise generation functions.
 
 ::: eq_insar.insar.noise.generate_random_noise
 
+::: eq_insar.insar.noise.generate_correlated_noise
+
 ::: eq_insar.insar.noise.generate_orbital_ramp
