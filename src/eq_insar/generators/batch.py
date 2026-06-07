@@ -184,7 +184,7 @@ def generate_training_batch(
     samples = []
 
     for i in range(n_samples):
-        sample_seed = seed + i if seed else None
+        sample_seed = seed + i if seed is not None else None
 
         # Sample earthquake parameters
         params = sample_earthquake_parameters(

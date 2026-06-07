@@ -184,7 +184,7 @@ def generate_timeseries(
 
     # Generate frames
     for t in range(n_total):
-        frame_seed = seed + t * 100 if seed else None
+        frame_seed = seed + t * 100 if seed is not None else None
         if noise_model == "correlated":
             noise = generate_correlated_noise(
                 (ny, nx),

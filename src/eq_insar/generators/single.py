@@ -309,7 +309,7 @@ def generate_synthetic_insar(
             ramp = generate_orbital_ramp(
                 (ny, nx),
                 pixel_size_km=grid_spacing_km,
-                seed=seed + 300 if seed else None
+                seed=seed + 300 if seed is not None else None
             )
             ramp_phase = displacement_to_phase(ramp, wavelength_m)
             phase_noisy = phase_noisy + ramp_phase
