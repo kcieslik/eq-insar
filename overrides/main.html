@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "EQ-INSAR",
+  "description": "Lightweight, physics-based forward model for generating synthetic InSAR surface deformation data from earthquake sources. Designed for ML training, benchmarking, and sensitivity analysis.",
+  "codeRepository": "https://github.com/kcieslik/eq-insar",
+  "url": "https://kcieslik.github.io/eq-insar/",
+  "programmingLanguage": "Python",
+  "license": "https://opensource.org/licenses/MIT",
+  "author": {
+    "@type": "Person",
+    "name": "Konrad Cieslik",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "Wroclaw University of Science and Technology"
+    }
+  },
+  "keywords": [
+    "InSAR",
+    "earthquake",
+    "synthetic data",
+    "seismology",
+    "machine learning",
+    "remote sensing",
+    "geodesy",
+    "surface deformation",
+    "interferometry",
+    "SAR"
+  ],
+  "applicationCategory": "Scientific/Engineering",
+  "runtimePlatform": "Python 3.8+",
+  "operatingSystem": "OS Independent"
+}
+</script>
+{% endblock %}
