@@ -9,7 +9,7 @@ Physics-based. ML-ready. Reproducible.
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18647190.svg)](https://doi.org/10.5281/zenodo.18647190)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20597476.svg)](https://doi.org/10.5281/zenodo.20597476)
 [![PyPI](https://img.shields.io/pypi/v/eq-insar.svg)](https://pypi.org/project/eq-insar/)
 [![EarthArXiv](https://img.shields.io/badge/EarthArXiv-10.31223%2FX5T19M-blue)](https://doi.org/10.31223/X5T19M)
 
@@ -305,7 +305,7 @@ If you use EQ-INSAR in your research, please cite:
   title = {EQ-INSAR: A Python Package for Generating Synthetic Earthquake InSAR Deformation Data},
   year = {2026},
   url = {https://github.com/kcieslik/eq-insar},
-  doi = {10.5281/zenodo.18647190}
+  doi = {10.5281/zenodo.20597476}
 }
 ```
 
