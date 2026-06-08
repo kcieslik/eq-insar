@@ -17,6 +17,7 @@ from .projection import (
 )
 from .noise import (
     generate_random_noise,
+    generate_correlated_noise,
     generate_orbital_ramp,
 )
 
@@ -29,5 +30,6 @@ __all__ = [
     "phase_to_displacement",
     # Noise models
     "generate_random_noise",
+    "generate_correlated_noise",
     "generate_orbital_ramp",
 ]

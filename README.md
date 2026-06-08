@@ -44,6 +44,7 @@ plot_insar_products(result)  # wrapped phase, unwrapped, LOS
 - **Any fault geometry** — thrust, normal, strike-slip, oblique; full strike/dip/rake control
 - **9 real satellites built-in** — Sentinel-1, ALOS-2, TerraSAR-X, COSMO-SkyMed, NISAR, and more
 - **InSAR-native outputs** — wrapped phase, unwrapped phase, LOS displacement, segmentation masks
+- **Realistic noise** — spatially correlated power-law atmospheric noise (Kolmogorov β=5/3) by default, switchable to Gaussian
 - **Reproducible** — every call accepts a `seed` for exact dataset reproduction
 - **Minimal footprint** — NumPy only for core computation; matplotlib/rasterio/netCDF4 are optional
 
@@ -67,16 +68,10 @@ plot_insar_products(result)  # wrapped phase, unwrapped, LOS
 | [satellite_comparison.ipynb](examples/satellite_comparison.ipynb) | C-band vs L-band vs X-band — wavelength effects on fringe density | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/satellite_comparison.ipynb) |
 | [interactive_explorer.ipynb](examples/interactive_explorer.ipynb) | **Interactive ipywidgets explorer** — real-time sliders for strike, dip, rake, depth, and Mw | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/interactive_explorer.ipynb) |
 | [earthquake_deformation_segmentation_unet.ipynb](examples/earthquake_deformation_segmentation_unet.ipynb) | **U-Net segmentation quickstart** — generate synthetic data, train, predict in ~3 min on Colab T4 (test IoU 0.773) | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/earthquake_deformation_segmentation_unet.ipynb) |
+| [noise_models_comparison.ipynb](examples/noise_models_comparison.ipynb) | **Noise model showcase** — Gaussian vs. correlated power-law noise: visual comparison, PSD, effect of β, interferogram gallery | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kcieslik/eq-insar/blob/main/examples/noise_models_comparison.ipynb) |
 
 ---
 
-## Sample Dataset
-
-A ready-to-use dataset of 1,000 synthetic earthquake interferograms (Sentinel-1, Mw 5–7, random fault geometries) is available on Zenodo:
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18860087.svg)](https://doi.org/10.5281/zenodo.18860087)
-
----
 
 ## Installation
 
@@ -108,7 +103,23 @@ result = generate_timeseries(
 )
 
 X = result['timeseries']  # (11, height, width)
-y = result['labels']      # binary segmentation masks
+y = result['labels']      # binary segmentation masks (3 mm LOS threshold)
+```
+
+### Realistic Atmospheric Noise
+
+```python
+from eq_insar import generate_synthetic_insar, generate_correlated_noise
+
+# Correlated noise is the default (Kolmogorov β=5/3)
+result = generate_synthetic_insar(Mw=6.0, satellite='sentinel1')
+
+# Switch to uncorrelated Gaussian if needed
+result = generate_synthetic_insar(Mw=6.0, satellite='sentinel1',
+                                  noise_model='gaussian')
+
+# Generate noise fields directly
+noise = generate_correlated_noise((256, 256), amplitude_m=0.005, beta=5/3)
 ```
 
 ### Batch Generation for ML Pipelines
@@ -123,9 +134,9 @@ batch = generate_training_batch(
     seed=42
 )
 
-X, y = batch_to_arrays(batch)
-# X: (1000, T, H, W) — input time series
-# y: (1000, T, H, W) — segmentation labels
+result = batch_to_arrays(batch)
+X = result['X']  # (1000, T, H, W) — input time series
+y = result['y']  # (1000, T, H, W) — segmentation labels
 ```
 
 ### Custom Earthquake Parameters
@@ -135,7 +146,7 @@ from eq_insar import sample_earthquake_parameters, generate_synthetic_insar
 
 params = sample_earthquake_parameters(
     mw_range=(5.5, 6.5),
-    depth_range=(5, 20),
+    depth_range_km=(5, 20),
     seed=42
 )
 
@@ -153,6 +164,7 @@ result = generate_synthetic_insar(**params, satellite='sentinel1')
 | `generate_training_batch()` | Generate multiple samples with random parameters |
 | `sample_earthquake_parameters()` | Sample random earthquake parameters |
 | `batch_to_arrays()` | Convert batch to stacked NumPy arrays |
+| `generate_correlated_noise()` | Generate spatially correlated power-law noise field |
 
 Full API reference (all physics, InSAR, I/O, and visualization functions) → **[Documentation](https://kcieslik.github.io/eq-insar/)**
 
@@ -265,6 +277,7 @@ See [ROADMAP.md](ROADMAP.md) for planned features. Browse [open issues sorted by
 - **Davis, P.M. (1986)**. Surface deformation due to a dipping hydrofracture. *Journal of Geophysical Research*
 - **Aki, K. & Richards, P.G. (2002)**. *Quantitative Seismology*, 2nd ed. University Science Books
 - **Hanks, T.C. & Kanamori, H. (1979)**. A moment magnitude scale. *Journal of Geophysical Research*
+- **Hanssen, R.F. (2001)**. *Radar Interferometry: Data Interpretation and Error Analysis*. Springer
 - **Wells, D.L. & Coppersmith, K.J. (1994)**. New empirical relationships among magnitude, rupture length, rupture width, rupture area, and surface displacement. *BSSA*
 
 ## Citation

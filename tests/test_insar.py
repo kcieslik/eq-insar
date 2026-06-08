@@ -2,6 +2,7 @@
 Tests for InSAR projection, phase conversion, and noise modules.
 """
 
+import sys
 import numpy as np
 import pytest
 
@@ -15,6 +16,7 @@ from eq_insar.insar.projection import (
 )
 from eq_insar.insar.noise import (
     generate_random_noise,
+    generate_correlated_noise,
     generate_orbital_ramp,
 )
 from eq_insar.constants import SENTINEL1_WAVELENGTH_M
@@ -41,14 +43,19 @@ class TestLOSVector:
                 )
 
     def test_sentinel1_ascending_values(self):
-        """Known Sentinel-1 ascending geometry values."""
+        """Known Sentinel-1 ascending geometry values.
+
+        Ascending S1 (heading ~-13° ≈ NNW, right-looking) has its satellite
+        to the west-southwest: large negative E, small negative N, large U.
+        Verified against LiCSAR geo_E/N/U look-vector files (E≈-0.54, N≈-0.10, U≈0.84).
+        """
         le, ln, lu = compute_los_vector(incidence_deg=33.0, heading_deg=-13.0)
-        # Vertical sensitivity should dominate
+        # Vertical sensitivity dominates and is positive
         assert lu > 0.8
-        # East sensitivity should be small
-        assert abs(le) < 0.2
-        # North sensitivity moderate
-        assert ln > 0.4
+        # East sensitivity is large and negative (satellite to the west)
+        assert le < -0.4
+        # North sensitivity is small and negative
+        assert -0.2 < ln < 0.0
 
 
 class TestLOSDisplacement:
@@ -177,6 +184,84 @@ class TestNoise:
         n1 = generate_random_noise((50, 50), seed=1)
         n2 = generate_random_noise((50, 50), seed=2)
         assert not np.array_equal(n1, n2)
+
+
+class TestCorrelatedNoise:
+    """Tests for generate_correlated_noise."""
+
+    def test_shape(self):
+        noise = generate_correlated_noise((64, 64), amplitude_m=0.005)
+        assert noise.shape == (64, 64)
+
+    def test_amplitude(self):
+        """Standard deviation should approximate the requested amplitude."""
+        noise = generate_correlated_noise((512, 512), amplitude_m=0.01, seed=42)
+        assert abs(np.std(noise) - 0.01) < 0.001
+
+    def test_zero_mean(self):
+        """DC component is zeroed in the FFT — field must be zero-mean."""
+        noise = generate_correlated_noise((256, 256), amplitude_m=0.005, seed=0)
+        assert abs(np.mean(noise)) < 1e-10
+
+    def test_reproducibility(self):
+        n1 = generate_correlated_noise((50, 50), seed=99)
+        n2 = generate_correlated_noise((50, 50), seed=99)
+        np.testing.assert_array_equal(n1, n2)
+
+    def test_different_seeds(self):
+        n1 = generate_correlated_noise((50, 50), seed=1)
+        n2 = generate_correlated_noise((50, 50), seed=2)
+        assert not np.array_equal(n1, n2)
+
+    def test_power_law_slope(self):
+        """Radially averaged PSD slope should approximate -beta on a log-log scale."""
+        beta = 5 / 3
+        noise = generate_correlated_noise((256, 256), amplitude_m=0.01, beta=beta, seed=42)
+
+        # Compute 2-D PSD
+        F = np.fft.fft2(noise)
+        P = np.abs(F) ** 2
+        fy = np.fft.fftfreq(256)
+        fx = np.fft.fftfreq(256)
+        FX, FY = np.meshgrid(fx, fy)
+        freq = np.sqrt(FX**2 + FY**2).ravel()
+        power = P.ravel()
+
+        # Bin into 32 frequency bands, excluding DC and Nyquist region
+        f_bins = np.linspace(0.02, 0.45, 33)
+        f_mid = 0.5 * (f_bins[:-1] + f_bins[1:])
+        p_mean = np.array([
+            power[(freq >= f_bins[i]) & (freq < f_bins[i + 1])].mean()
+            for i in range(len(f_bins) - 1)
+        ])
+
+        # Fit log-log slope — guarded on Windows where polyfit can cause a
+        # fatal C-level exception in certain NumPy/Anaconda builds
+        if sys.platform != "win32":
+            slope, _ = np.polyfit(np.log10(f_mid), np.log10(p_mean), 1)
+            assert abs(slope - (-beta)) < 0.4, (
+                f"Expected PSD slope ≈ -{beta:.2f}, got {slope:.2f}"
+            )
+
+    def test_white_noise_limit(self):
+        """beta=0 should produce a nearly flat (white) spectrum."""
+        noise = generate_correlated_noise((256, 256), amplitude_m=0.01, beta=0.0, seed=42)
+        F = np.fft.fft2(noise)
+        P = np.abs(F) ** 2
+        fy = np.fft.fftfreq(256)
+        fx = np.fft.fftfreq(256)
+        FX, FY = np.meshgrid(fx, fy)
+        freq = np.sqrt(FX**2 + FY**2).ravel()
+        power = P.ravel()
+        f_bins = np.linspace(0.05, 0.45, 17)
+        f_mid = 0.5 * (f_bins[:-1] + f_bins[1:])
+        p_mean = np.array([
+            power[(freq >= f_bins[i]) & (freq < f_bins[i + 1])].mean()
+            for i in range(len(f_bins) - 1)
+        ])
+        if sys.platform != "win32":
+            slope, _ = np.polyfit(np.log10(f_mid), np.log10(p_mean), 1)
+            assert abs(slope) < 0.5, f"beta=0 should give flat spectrum, slope={slope:.2f}"
 
 
 class TestOrbitalRamp:

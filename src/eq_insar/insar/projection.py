@@ -44,22 +44,26 @@ def compute_los_vector(
     Notes
     -----
     For a typical Sentinel-1 ascending geometry (inc=33°, head=-13°):
-    - los_e ≈ 0.12 (eastward motion → small range decrease)
-    - los_n ≈ 0.53 (northward motion → range decrease)
-    - los_u ≈ 0.84 (uplift → range decrease)
+    - los_e ≈ -0.53 (eastward motion → range increase, away from satellite)
+    - los_n ≈ -0.12 (northward motion → range increase)
+    - los_u ≈ 0.84  (uplift → range decrease, toward satellite)
+    Satellite is to the west-southwest for ascending geometry.
 
     For descending (inc=33°, head=-167°):
-    - los_e ≈ -0.12 (westward motion → range decrease)
-    - los_n ≈ -0.53 (southward motion → range decrease)
-    - los_u ≈ 0.84 (uplift → range decrease)
+    - los_e ≈ +0.53 (eastward motion → range decrease, toward satellite)
+    - los_n ≈ -0.12 (northward motion → range increase)
+    - los_u ≈ 0.84  (uplift → range decrease, toward satellite)
+    Satellite is to the east-southeast for descending geometry.
     """
     inc = np.deg2rad(incidence_deg)
     head = np.deg2rad(heading_deg)
 
     # LOS unit vector pointing from ground to satellite
     # Positive = motion toward satellite (range decrease)
-    los_e = -np.sin(inc) * np.sin(head)
-    los_n = np.sin(inc) * np.cos(head)
+    # Derivation: right-looking SAR, look azimuth = heading + 90°
+    # ground-to-sat E = -sin(inc)*cos(head), N = sin(inc)*sin(head)
+    los_e = -np.sin(inc) * np.cos(head)
+    los_n = np.sin(inc) * np.sin(head)
     los_u = np.cos(inc)
 
     return los_e, los_n, los_u

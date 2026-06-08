@@ -93,9 +93,9 @@ batch = generate_training_batch(
     seed=42
 )
 
-X, y = batch_to_arrays(batch)
-# X: (100, T, H, W) - input time series
-# y: (100, T, H, W) - segmentation labels
+result = batch_to_arrays(batch)
+X = result['X']  # (100, T, H, W) - input time series
+y = result['y']  # (100, T, H, W) - segmentation labels
 ```
 
 ## Fault Geometry Convention

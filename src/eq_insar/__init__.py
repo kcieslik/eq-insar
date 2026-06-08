@@ -11,7 +11,7 @@ Features
 - **Davis (1986) point source model**: Fast, accurate for small-to-moderate earthquakes
 - **InSAR-native outputs**: LOS displacement, wrapped/unwrapped phase
 - **Multiple satellites**: Sentinel-1, ALOS-2, TerraSAR-X, COSMO-SkyMed, etc.
-- **Simple noise model**: Random Gaussian noise, orbital ramps
+- **Noise models**: Uncorrelated Gaussian and spatially correlated power-law (atmospheric turbulence)
 - **ML-ready**: Time series with pre/event/post frames, batch generation
 - **Export formats**: GeoTIFF and NetCDF support
 
@@ -54,7 +54,7 @@ License
 MIT License
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Konrad Cieslik"
 
 # =============================================================================
@@ -128,6 +128,7 @@ from .insar import (
     phase_to_displacement,
     # Noise models
     generate_random_noise,
+    generate_correlated_noise,
     generate_orbital_ramp,
 )
 
@@ -200,6 +201,7 @@ __all__ = [
     "wrap_phase",
     "phase_to_displacement",
     "generate_random_noise",
+    "generate_correlated_noise",
     "generate_orbital_ramp",
     # I/O
     "save_geotiff",

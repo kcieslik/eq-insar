@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "eq-insar"
-version = "0.1.1"
+version = "0.2.0"
 description = "Lightweight, physics-based forward model for generating synthetic InSAR deformation data from earthquake sources"
 readme = "README.md"
 license = {text = "MIT"}
@@ -93,6 +93,7 @@ python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-v --tb=short"
+pythonpath = ["src"]
 
 [tool.coverage.run]
 source = ["src/eq_insar"]

@@ -116,7 +116,9 @@ def generate_training_batch(
     n_event: int = 1,
     n_post: int = 3,
     # Noise parameters
-    noise_range_m: Tuple[float, float] = (0.002, 0.008),
+    noise_range_m: Tuple[float, float] = (0.001, 0.005),
+    noise_model: str = "correlated",
+    noise_beta: float = 5 / 3,
     # Output options
     wrap: bool = True,
     output_type: str = "phase",
@@ -182,7 +184,7 @@ def generate_training_batch(
     samples = []
 
     for i in range(n_samples):
-        sample_seed = seed + i if seed else None
+        sample_seed = seed + i if seed is not None else None
 
         # Sample earthquake parameters
         params = sample_earthquake_parameters(
@@ -210,6 +212,8 @@ def generate_training_batch(
             n_event=n_event,
             n_post=n_post,
             noise_amplitude_m=noise_amplitude,
+            noise_model=noise_model,
+            noise_beta=noise_beta,
             wrap=wrap,
             output_type=output_type,
             seed=sample_seed,

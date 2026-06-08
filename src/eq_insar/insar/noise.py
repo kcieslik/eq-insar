@@ -1,8 +1,9 @@
 """
 Noise models for synthetic InSAR data.
 
-This module provides simple noise models:
-- Random Gaussian noise
+This module provides noise models:
+- Uncorrelated Gaussian noise
+- Spatially correlated power-law noise (atmospheric turbulence)
 - Orbital/baseline ramp errors
 """
 
@@ -36,6 +37,58 @@ def generate_random_noise(
         np.random.seed(seed)
 
     return amplitude_m * np.random.randn(*shape)
+
+
+def generate_correlated_noise(
+    shape: Tuple[int, int],
+    amplitude_m: float = 0.005,
+    beta: float = 5 / 3,
+    seed: Optional[int] = None,
+) -> np.ndarray:
+    """
+    Generate spatially correlated noise with a power-law spectrum.
+
+    Models atmospheric turbulence in InSAR interferograms. The power spectral
+    density follows P(f) ∝ f^(-β).  Kolmogorov atmospheric turbulence uses
+    β = 5/3; β = 0 recovers uncorrelated white noise.
+
+    Parameters
+    ----------
+    shape : tuple (ny, nx)
+        Output array shape
+    amplitude_m : float
+        Standard deviation of the output noise field in meters (default: 5 mm)
+    beta : float
+        Power-law spectral index (default: 5/3 ≈ Kolmogorov turbulence).
+        Higher values produce longer-range spatial correlations.
+    seed : int, optional
+        Random seed for reproducibility
+
+    Returns
+    -------
+    noise : np.ndarray
+        Spatially correlated, zero-mean noise field in meters
+    """
+    rng = np.random.default_rng(seed)
+    ny, nx = shape
+
+    fy = np.fft.fftfreq(ny)
+    fx = np.fft.fftfreq(nx)
+    FX, FY = np.meshgrid(fx, fy)
+    freq = np.sqrt(FX**2 + FY**2)
+    freq[0, 0] = 1.0          # avoid divide-by-zero at DC
+
+    power = freq ** (-beta / 2)
+    power[0, 0] = 0.0          # zero mean: remove DC component
+
+    white = rng.standard_normal((ny, nx)) + 1j * rng.standard_normal((ny, nx))
+    field = np.real(np.fft.ifft2(power * white))
+
+    std = field.std()
+    if std > 0:
+        field /= std
+
+    return field * amplitude_m
 
 
 def generate_orbital_ramp(

@@ -25,6 +25,7 @@ from ..insar import (
     displacement_to_phase,
     wrap_phase,
     generate_random_noise,
+    generate_correlated_noise,
     generate_orbital_ramp,
 )
 
@@ -94,7 +95,9 @@ def generate_synthetic_insar(
     wavelength_m: Optional[float] = None,
     # Noise parameters
     add_noise: bool = True,
-    noise_amplitude_m: float = 0.005,
+    noise_amplitude_m: float = 0.003,
+    noise_model: str = "correlated",
+    noise_beta: float = 5 / 3,
     add_orbital_ramp: bool = False,
     # Output options
     wrap: bool = True,
@@ -156,9 +159,15 @@ def generate_synthetic_insar(
         Radar wavelength in meters (manual specification)
 
     add_noise : bool
-        Whether to add random noise
+        Whether to add noise
     noise_amplitude_m : float
         Noise standard deviation in meters (default: 5 mm)
+    noise_model : str
+        Noise model: 'gaussian' (default, uncorrelated) or 'correlated'
+        (power-law spectrum modelling atmospheric turbulence)
+    noise_beta : float
+        Spectral index for correlated noise (default: 5/3, Kolmogorov).
+        Only used when noise_model='correlated'.
     add_orbital_ramp : bool
         Whether to add orbital ramp artifact
 
@@ -279,12 +288,19 @@ def generate_synthetic_insar(
     phase_noisy = phase_unwrapped.copy()
 
     if add_noise:
-        # Random noise
-        noise = generate_random_noise(
-            (ny, nx),
-            amplitude_m=noise_amplitude_m,
-            seed=seed
-        )
+        if noise_model == "correlated":
+            noise = generate_correlated_noise(
+                (ny, nx),
+                amplitude_m=noise_amplitude_m,
+                beta=noise_beta,
+                seed=seed,
+            )
+        else:
+            noise = generate_random_noise(
+                (ny, nx),
+                amplitude_m=noise_amplitude_m,
+                seed=seed,
+            )
         noise_phase = displacement_to_phase(noise, wavelength_m)
         phase_noisy = phase_noisy + noise_phase
 
@@ -293,7 +309,7 @@ def generate_synthetic_insar(
             ramp = generate_orbital_ramp(
                 (ny, nx),
                 pixel_size_km=grid_spacing_km,
-                seed=seed + 300 if seed else None
+                seed=seed + 300 if seed is not None else None
             )
             ramp_phase = displacement_to_phase(ramp, wavelength_m)
             phase_noisy = phase_noisy + ramp_phase
@@ -328,6 +344,8 @@ def generate_synthetic_insar(
         "wavelength_m": wavelength_m,
         # Noise parameters
         "noise_amplitude_m": noise_amplitude_m,
+        "noise_model": noise_model,
+        "noise_beta": noise_beta if noise_model == "correlated" else None,
     }
 
     return {
