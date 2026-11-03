@@ -7,7 +7,9 @@ A lightweight, physics-based forward model for generating synthetic InSAR surfac
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PyPI](https://img.shields.io/pypi/v/eq-insar.svg)](https://pypi.org/project/eq-insar/)
-[![DOI](https://zenodo.org/badge/1147152431.svg)](https://doi.org/10.5281/zenodo.18647189)
+[![SoftwareX](https://img.shields.io/badge/SoftwareX-10.1016%2Fj.softx.2026.102903-orange)](https://doi.org/10.1016/j.softx.2026.102903)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20597476.svg)](https://doi.org/10.5281/zenodo.20597476)
+[![EarthArXiv](https://img.shields.io/badge/EarthArXiv-10.31223%2FX5T19M-blue)](https://doi.org/10.31223/X5T19M)
 
 ---
 
@@ -62,15 +64,46 @@ See the [Getting Started](getting-started.md) guide for more options.
 
 ## Citation
 
-If you use EQ-INSAR in your research, please cite:
+If you use EQ-INSAR in your research, please cite the [SoftwareX paper](https://www.sciencedirect.com/science/article/pii/S2352711026003948):
+
+**Paper (SoftwareX):**
 
 ```bibtex
-@software{cieslik2026eqinsar,
+@article{cieslik2026eqinsar,
+  author = {Cieslik, Konrad and Milczarek, Wojciech},
+  title = {EQ-INSAR: a Python package for generating labeled synthetic InSAR deformation data from earthquakes},
+  journal = {SoftwareX},
+  volume = {35},
+  pages = {102903},
+  year = {2026},
+  publisher = {Elsevier},
+  doi = {10.1016/j.softx.2026.102903},
+  url = {https://www.sciencedirect.com/science/article/pii/S2352711026003948}
+}
+```
+
+**Preprint:**
+
+```bibtex
+@article{cieslik2026eqinsar_preprint,
+  author = {Cieslik, Konrad and Milczarek, Wojciech},
+  title = {EQ-INSAR: A Python Package for Generating Synthetic Earthquake InSAR Deformation Data},
+  year = {2026},
+  publisher = {EarthArXiv},
+  doi = {10.31223/X5T19M},
+  url = {https://eartharxiv.org/repository/view/11910/}
+}
+```
+
+**Software:**
+
+```bibtex
+@software{cieslik2026eqinsar_software,
   author = {Cieslik, Konrad and Milczarek, Wojciech},
   title = {EQ-INSAR: A Python Package for Generating Synthetic Earthquake InSAR Deformation Data},
   year = {2026},
   url = {https://github.com/kcieslik/eq-insar},
-  doi = {10.5281/zenodo.18647189}
+  doi = {10.5281/zenodo.20597476}
 }
 ```
 
