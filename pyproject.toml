@@ -80,6 +80,7 @@ Homepage = "https://github.com/kcieslik/eq-insar"
 Repository = "https://github.com/kcieslik/eq-insar"
 Documentation = "https://kcieslik.github.io/eq-insar/"
 Issues = "https://github.com/kcieslik/eq-insar/issues"
+Paper = "https://doi.org/10.1016/j.softx.2026.102903"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
